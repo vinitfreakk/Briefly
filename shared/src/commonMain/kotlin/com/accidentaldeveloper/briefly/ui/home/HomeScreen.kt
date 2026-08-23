@@ -89,7 +89,7 @@ fun HomeScreen(homeScreenViewModel: HomeScreenViewModel) {
 }
 
 @Composable
-fun NewsTopics(newsList: List<String>, selectedTopic: String, onSelectedTopic: (String) -> Unit) {
+private fun NewsTopics(newsList: List<String>, selectedTopic: String, onSelectedTopic: (String) -> Unit) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -113,7 +113,7 @@ fun NewsTopics(newsList: List<String>, selectedTopic: String, onSelectedTopic: (
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun NewsPager(newsList: List<Article>, colorList: List<Color>) {
+private fun NewsPager(newsList: List<Article>, colorList: List<Color>) {
     val pagerState: PagerState = rememberPagerState(initialPage = 0, pageCount = { newsList.size })
 
     HorizontalPager(
@@ -132,8 +132,8 @@ fun NewsPager(newsList: List<Article>, colorList: List<Color>) {
     }
 }
 
-@Composable
-fun PagerItem(headline: String, content: String, author: String, time: String, color: Color) {
+/*@Composable
+private fun PagerItem(headline: String, content: String, author: String, time: String, color: Color) {
     Card(
         modifier = Modifier
             .fillMaxHeight(0.8f)
@@ -199,10 +199,93 @@ fun PagerItem(headline: String, content: String, author: String, time: String, c
             )
         }
     }
+}*/
+
+@Composable
+private fun PagerItem(headline: String, content: String, author: String, time: String, color: Color) {
+    Card(
+        modifier = Modifier
+            .fillMaxHeight(0.8f)
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF1C1C1C)
+        ),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .background(color)
+                .fillMaxSize()
+                .padding(24.dp),
+        ) {
+            // Headline — largest, tightest line height for a punchy masthead feel
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = headline,
+                fontSize = 26.sp,
+                lineHeight = 32.sp,
+                fontWeight = FontWeight.ExtraBold,
+                letterSpacing = (-0.3).sp, // slight tightening reads better at large bold sizes
+                maxLines = 3,
+                color = Color.Black,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Timestamp — small, muted, functions as metadata not content
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = time.toRelativeTime(),
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Medium,
+                letterSpacing = 0.2.sp,
+                color = Color.Black.copy(alpha = 0.55f),
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Author block — label + name, label de-emphasized, name carries weight
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "PUBLISHED BY",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = 1.2.sp, // wider tracking on small caps-style labels aids legibility
+                color = Color.Black.copy(alpha = 0.45f),
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = author,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.Black,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Body — comfortable reading size, relaxed line height for a paragraph of text
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = content.cleanArticleText(),
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                maxLines = 7,
+                fontWeight = FontWeight.Normal,
+                color = Color.Black.copy(alpha = 0.85f),
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
 }
 
 @Composable
-fun SuccessUi(
+private fun SuccessUi(
     newsList: List<String>,
     articleList: List<Article>,
     selectedTopic: String,
@@ -218,4 +301,9 @@ fun SuccessUi(
         Spacer(modifier = Modifier.height(32.dp))
         NewsPager(articleList, colorList)
     }
+}
+
+@Composable
+private fun ArticleActionRow(){
+
 }

@@ -24,6 +24,7 @@ private val NetworkJson = Json {
 }
 
 val newsApiClient = HttpClient{
+    expectSuccess = true
     install(ContentNegotiation){
        json(NetworkJson)
     }

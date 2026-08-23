@@ -115,7 +115,7 @@ fun AppBottomBar(
                 IconButton(
                     modifier = Modifier.clip(
                         CircleShape
-                    ).background(color = if (currentDestination == destination.navDestination) Color.White else Color.Unspecified),
+                    ).background(color = if (currentDestination == destination.navDestination) Color.White else Color(0xFF373636)),
                     onClick = {
                         onDestinationClicked(
                             destination.navDestination

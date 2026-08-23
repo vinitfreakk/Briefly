@@ -1,0 +1,7 @@
+package com.accidentaldeveloper.briefly
+
+interface Platform {
+    val name: String
+}
+
+expect fun getPlatform(): Platform

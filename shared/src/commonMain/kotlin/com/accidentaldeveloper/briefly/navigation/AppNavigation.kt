@@ -22,8 +22,10 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.accidentaldeveloper.briefly.ui.bookmark.BookMarkScreen
 import com.accidentaldeveloper.briefly.ui.home.HomeScreen
+import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel
 import com.accidentaldeveloper.briefly.ui.search.SearchScreen
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AppNavigation() {
@@ -50,7 +52,8 @@ fun AppNavigation() {
 
                     NavDestination.HomeScreen -> {
                         NavEntry(key) {
-                            HomeScreen()
+                            val homeScreenViewModel: HomeScreenViewModel = koinViewModel()
+                            HomeScreen(homeScreenViewModel)
                         }
                     }
 

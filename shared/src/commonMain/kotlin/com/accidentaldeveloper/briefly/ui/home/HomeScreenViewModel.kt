@@ -2,8 +2,6 @@ package com.accidentaldeveloper.briefly.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.accidentaldeveloper.briefly.model.ApiErrorResponse
-import com.accidentaldeveloper.briefly.model.NewsApiException
 import com.accidentaldeveloper.briefly.model.TopHeadlinesResponse
 import com.accidentaldeveloper.briefly.repository.NewsApiRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,5 +37,18 @@ class HomeScreenViewModel(private val newsApiRepository: NewsApiRepository) : Vi
             }
 
         }
+    }
+
+    fun getNewsTopics(): List<String>{
+        return listOf(
+            "Trending",
+            "Health",
+            "Sports",
+            "Finance",
+            "Games",
+            "Bitcoin",
+            "Technology",
+            "Politics"
+        )
     }
 }

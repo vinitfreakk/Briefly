@@ -14,9 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun HomeScreen(){
+fun HomeScreen(homeScreenViewModel: HomeScreenViewModel = koinViewModel()){
+    val response = homeScreenViewModel.topHeadlinesResponse.collectAsStateWithLifecycle()
     Scaffold(topBar = {
         Text(
             text = "Briefly",

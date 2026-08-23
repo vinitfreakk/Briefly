@@ -2,6 +2,7 @@ package com.accidentaldeveloper.briefly.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.accidentaldeveloper.briefly.model.Article
 import com.accidentaldeveloper.briefly.model.TopHeadlinesResponse
 import com.accidentaldeveloper.briefly.repository.NewsApiRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 sealed class TopHeadLinesUiState(){
     data object Initial: TopHeadLinesUiState()
     data object Loading: TopHeadLinesUiState()
-    data class Success(val topHeadlinesResponse: TopHeadlinesResponse): TopHeadLinesUiState()
+    data class Success(val topHeadlinesResponse: List<Article>): TopHeadLinesUiState()
     data class Error(val error: String): TopHeadLinesUiState()
 }
 class HomeScreenViewModel(private val newsApiRepository: NewsApiRepository) : ViewModel() {
@@ -30,9 +31,9 @@ class HomeScreenViewModel(private val newsApiRepository: NewsApiRepository) : Vi
              runCatching {
                 newsApiRepository.getTopHeadLines()
             }.onSuccess {
-                _topHeadLinesResponse.value = TopHeadLinesUiState.Success(it)
+                _topHeadLinesResponse.value = TopHeadLinesUiState.Success(it.articles)
             }.onFailure {
-                _topHeadLinesResponse.value = TopHeadLinesUiState.Error(error = it.toString())
+                _topHeadLinesResponse.value = TopHeadLinesUiState.Error(error = it.message.toString())
                  println("error from viewmodel: ${ it.message }")
             }
 
@@ -51,4 +52,5 @@ class HomeScreenViewModel(private val newsApiRepository: NewsApiRepository) : Vi
             "Politics"
         )
     }
+
 }

@@ -6,20 +6,25 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,18 +34,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import briefly.shared.generated.resources.Res
+import briefly.shared.generated.resources.ic_bookmark_filled
+import briefly.shared.generated.resources.ic_bookmark_outline
+import briefly.shared.generated.resources.ic_share
 import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.getColorList
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime
 import com.accidentaldeveloper.briefly.model.Article
 import com.accidentaldeveloper.briefly.ui.components.ErrorView
 import com.accidentaldeveloper.briefly.ui.components.LoadingView
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun HomeScreen(homeScreenViewModel: HomeScreenViewModel) {
@@ -77,7 +88,7 @@ fun HomeScreen(homeScreenViewModel: HomeScreenViewModel) {
                             SuccessUi(
                                 newsList = newsList,
                                 articleList = (response as TopHeadLinesUiState.Success).topHeadlinesResponse,
-                                selectedTopic=selectedTopic,
+                                selectedTopic = selectedTopic,
                                 onSelectedTopic = { selectedTopic = it },
                                 colorList
                             )
@@ -90,11 +101,15 @@ fun HomeScreen(homeScreenViewModel: HomeScreenViewModel) {
 }
 
 @Composable
-private fun NewsTopics(newsList: List<String>, selectedTopic: String, onSelectedTopic: (String) -> Unit) {
+private fun NewsTopics(
+    newsList: List<String>,
+    selectedTopic: String,
+    onSelectedTopic: (String) -> Unit
+) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().background(Color.Transparent)
+        modifier = Modifier.fillMaxWidth().height(48.dp).background(Color.Transparent)
     ) {
         items(newsList.size) { index ->
             val topic = newsList[index]
@@ -134,7 +149,13 @@ private fun NewsPager(newsList: List<Article>, colorList: List<Color>) {
 }
 
 @Composable
-private fun PagerItem(headline: String, content: String, author: String, time: String, color: Color) {
+private fun PagerItem(
+    headline: String,
+    content: String,
+    author: String,
+    time: String,
+    color: Color
+) {
     Card(
         modifier = Modifier
             .fillMaxHeight(0.8f)
@@ -145,76 +166,88 @@ private fun PagerItem(headline: String, content: String, author: String, time: S
         ),
         shape = RoundedCornerShape(16.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .background(color)
-                .fillMaxSize()
-                .padding(24.dp),
-        ) {
-            // Headline — largest, tightest line height for a punchy masthead feel
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = headline,
-                fontSize = 26.sp,
-                lineHeight = 32.sp,
-                fontWeight = FontWeight.ExtraBold,
-                letterSpacing = (-0.3).sp, // slight tightening reads better at large bold sizes
-                maxLines = 3,
-                color = Color.Black,
-                overflow = TextOverflow.Ellipsis
-            )
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .background(color)
+                    .fillMaxSize()
+                    .padding(24.dp),
+            ) {
+                // Headline — largest, tightest line height for a punchy masthead feel
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = headline,
+                    fontSize = 26.sp,
+                    lineHeight = 32.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = (-0.3).sp, // slight tightening reads better at large bold sizes
+                    maxLines = 3,
+                    color = Color.Black,
+                    overflow = TextOverflow.Ellipsis
+                )
 
-            Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-            // Timestamp — small, muted, functions as metadata not content
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = time.toRelativeTime(),
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Medium,
-                letterSpacing = 0.2.sp,
-                color = Color.Black.copy(alpha = 0.55f),
-                overflow = TextOverflow.Ellipsis
-            )
+                // Timestamp — small, muted, functions as metadata not content
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = time.toRelativeTime(),
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 0.2.sp,
+                    color = Color.Black.copy(alpha = 0.55f),
+                    overflow = TextOverflow.Ellipsis
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            // Author block — label + name, label de-emphasized, name carries weight
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = "PUBLISHED BY",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = 1.2.sp, // wider tracking on small caps-style labels aids legibility
-                color = Color.Black.copy(alpha = 0.45f),
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = author,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.Black,
-                overflow = TextOverflow.Ellipsis
-            )
+                // Author block — label + name, label de-emphasized, name carries weight
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "PUBLISHED BY",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = 1.2.sp, // wider tracking on small caps-style labels aids legibility
+                    color = Color.Black.copy(alpha = 0.45f),
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = author,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Black,
+                    overflow = TextOverflow.Ellipsis
+                )
 
-            Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
-            // Body — comfortable reading size, relaxed line height for a paragraph of text
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = content.cleanArticleText(),
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                maxLines = 7,
-                fontWeight = FontWeight.Normal,
-                color = Color.Black.copy(alpha = 0.85f),
-                overflow = TextOverflow.Ellipsis
+                // Body — comfortable reading size, relaxed line height for a paragraph of text
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = content.cleanArticleText(),
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    maxLines = 7,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Black.copy(alpha = 0.85f),
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            ArticleActionRow(
+                modifier = Modifier.align(Alignment.BottomEnd),
+                isBookMarked = false,
+                onBookMarkClicked = { },
+                onShareClicked = { }
             )
         }
+
     }
+
 }
+
+
 
 @Composable
 private fun SuccessUi(
@@ -237,9 +270,27 @@ private fun SuccessUi(
 
 @Composable
 private fun ArticleActionRow(
+    modifier: Modifier,
     isBookMarked: Boolean,
-    onBookMarkClicked:()-> Unit,
-    onShareClicked:()-> Unit
-){
-
+    onBookMarkClicked: () -> Unit,
+    onShareClicked: () -> Unit
+) {
+    Row(modifier.padding(8.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        IconButton(modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)), onClick = {onShareClicked()}) {
+            Icon(
+                tint = Color.DarkGray,
+                modifier = Modifier.size(28.dp),
+                painter = painterResource(resource = Res.drawable.ic_share),
+                contentDescription = null
+            )
+        }
+        IconButton(modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)),onClick = {onBookMarkClicked()}) {
+            Icon(
+                tint = Color.DarkGray,
+                modifier = Modifier.size(28.dp),
+                painter = painterResource(resource = if (isBookMarked) Res.drawable.ic_bookmark_filled else Res.drawable.ic_bookmark_outline),
+                contentDescription = null
+            )
+        }
+    }
 }

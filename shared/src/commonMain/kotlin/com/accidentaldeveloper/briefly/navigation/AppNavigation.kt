@@ -37,12 +37,12 @@ fun AppNavigation() {
     val currentDestination = backstack.last()
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(Color.Black)
     ) {
 
         // Screens
         NavDisplay(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().background(Color.Black),
             backStack = backstack,
             entryProvider = { key ->
 
@@ -75,6 +75,7 @@ fun AppNavigation() {
             onDestinationClicked = { destination ->
 
                 if (currentDestination != destination) {
+                    backstack.clear()
                     backstack.add(destination)
                 }
             },

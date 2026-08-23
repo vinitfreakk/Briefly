@@ -1,5 +1,6 @@
 package com.accidentaldeveloper.briefly.Utils
 
+import androidx.compose.ui.graphics.Color
 import kotlin.time.Clock
 import kotlin.time.Instant
 
@@ -25,4 +26,21 @@ fun String.toRelativeTime(): String {
     } catch (e: Exception) {
         this
     }
+}
+
+fun getColorList(): List<Color> {
+    return listOf(
+        Color(0xFFFFF2C5), // Soft yellow
+        Color(0xFFE1F1FF), // Soft blue
+        Color(0xFFFCE4E2), // Soft pink
+        Color(0xFFECE6FF), // Soft purple
+        Color(0xFFE2F7E9), // Soft green
+        Color(0xFFFFE5D9), // Soft peach
+        Color(0xFFE0F7F6), // Soft mint
+        Color(0xFFF5E6FF), // Soft lavender
+        Color(0xFFFFEAF2), // Soft rose
+        Color(0xFFFFF0DB), // Soft cream
+        Color(0xFFE8F0FE), // Soft periwinkle
+        Color(0xFFE9F5E1)  // Soft sage
+    )
 }

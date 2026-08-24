@@ -52,14 +52,11 @@ fun AppNavigation() {
             entryProvider = { key ->
 
                 when (key) {
-
                     NavDestination.HomeScreen -> {
                         NavEntry(key) {
                             val homeScreenViewModel: HomeScreenViewModel = koinViewModel()
-                            HomeScreen(homeScreenViewModel, onCardClicked = {
-                                backstack.add(
-                                    NavDestination.NewsDetails
-                                )
+                            HomeScreen(homeScreenViewModel, onCardClicked = {newsDetails->
+                                backstack.add(NavDestination.NewsDetails(newsDetails))
                             })
                         }
                     }
@@ -76,16 +73,16 @@ fun AppNavigation() {
                         }
                     }
 
-                    NavDestination.NewsDetails -> {
+                    is NavDestination.NewsDetails -> {
                         NavEntry(key) {
-                            NewsDetailsScreen()
+                            NewsDetailsScreen(newsDetails = key.newsDetails)
                         }
                     }
                 }
             }
         )
 
-        if(currentDestination!=NavDestination.NewsDetails){
+        if(currentDestination !is NavDestination.NewsDetails){
             // Floating Bottom Bar
             AppBottomBar(
                 currentDestination = currentDestination,

@@ -50,12 +50,14 @@ import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.getColorList
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime
 import com.accidentaldeveloper.briefly.model.Article
+import com.accidentaldeveloper.briefly.navigation.NewsDetailsNavArgs
+import com.accidentaldeveloper.briefly.navigation.toNewsDetails
 import com.accidentaldeveloper.briefly.ui.components.ErrorView
 import com.accidentaldeveloper.briefly.ui.components.LoadingView
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun HomeScreen(homeScreenViewModel: HomeScreenViewModel,onCardClicked:()-> Unit) {
+fun HomeScreen(homeScreenViewModel: HomeScreenViewModel, onCardClicked: (NewsDetailsNavArgs) -> Unit) {
     val response by homeScreenViewModel.topHeadlinesResponse.collectAsStateWithLifecycle()
     val newsList = homeScreenViewModel.getNewsTopics()
     val colorList = getColorList()
@@ -132,7 +134,7 @@ private fun NewsTopics(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun NewsPager(newsList: List<Article>, colorList: List<Color>,onCardClicked:()-> Unit) {
+private fun NewsPager(newsList: List<Article>, colorList: List<Color>,onCardClicked:(NewsDetailsNavArgs)-> Unit) {
     val pagerState: PagerState = rememberPagerState(initialPage = 0, pageCount = { newsList.size })
 
     HorizontalPager(
@@ -147,7 +149,9 @@ private fun NewsPager(newsList: List<Article>, colorList: List<Color>,onCardClic
             content = newsList[page].description ?: "N/A",
             author = newsList[page].author ?: "Unknown",
             time = newsList[page].publishedAt ?: "",
-            onCardClicked = onCardClicked
+            onCardClicked = {
+                onCardClicked(newsList[page].toNewsDetails(cyclicColor))
+            }
         )
     }
 }
@@ -263,7 +267,7 @@ private fun SuccessUi(
     selectedTopic: String,
     onSelectedTopic: (String) -> Unit,
     colorList: List<Color>,
-    onCardClicked:()->Unit
+    onCardClicked:(NewsDetailsNavArgs)->Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         NewsTopics(

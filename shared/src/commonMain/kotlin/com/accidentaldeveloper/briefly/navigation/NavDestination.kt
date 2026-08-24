@@ -12,7 +12,7 @@ import org.jetbrains.compose.resources.DrawableResource
 sealed interface NavDestination{
     data object HomeScreen: NavDestination
 
-    data object NewsDetails: NavDestination
+    data class NewsDetails(val newsDetails: NewsDetailsNavArgs): NavDestination
     data object SearchScreen: NavDestination
     data object BookMarkScreen: NavDestination
 }

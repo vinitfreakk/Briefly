@@ -11,6 +11,8 @@ import org.jetbrains.compose.resources.DrawableResource
 
 sealed interface NavDestination{
     data object HomeScreen: NavDestination
+
+    data object NewsDetails: NavDestination
     data object SearchScreen: NavDestination
     data object BookMarkScreen: NavDestination
 }

@@ -25,6 +25,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.accidentaldeveloper.briefly.ui.bookmark.BookMarkScreen
 import com.accidentaldeveloper.briefly.ui.home.HomeScreen
 import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel
+import com.accidentaldeveloper.briefly.ui.newsDetails.NewsDetailsScreen
 import com.accidentaldeveloper.briefly.ui.search.SearchScreen
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -55,7 +56,11 @@ fun AppNavigation() {
                     NavDestination.HomeScreen -> {
                         NavEntry(key) {
                             val homeScreenViewModel: HomeScreenViewModel = koinViewModel()
-                            HomeScreen(homeScreenViewModel)
+                            HomeScreen(homeScreenViewModel, onCardClicked = {
+                                backstack.add(
+                                    NavDestination.NewsDetails
+                                )
+                            })
                         }
                     }
 
@@ -70,24 +75,33 @@ fun AppNavigation() {
                             BookMarkScreen()
                         }
                     }
+
+                    NavDestination.NewsDetails -> {
+                        NavEntry(key) {
+                            NewsDetailsScreen()
+                        }
+                    }
                 }
             }
         )
 
-        // Floating Bottom Bar
-        AppBottomBar(
-            currentDestination = currentDestination,
-            onDestinationClicked = { destination ->
+        if(currentDestination!=NavDestination.NewsDetails){
+            // Floating Bottom Bar
+            AppBottomBar(
+                currentDestination = currentDestination,
+                onDestinationClicked = { destination ->
 
-                if (currentDestination != destination) {
-                    backstack.clear()
-                    backstack.add(destination)
-                }
-            },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 48.dp)
-        )
+                    if (currentDestination != destination) {
+                        backstack.clear()
+                        backstack.add(destination)
+                    }
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 48.dp)
+            )
+        }
+
     }
 }
 
@@ -122,8 +136,12 @@ fun AppBottomBar(
                     modifier = Modifier
                         .size(56.dp)
                         .clip(
-                        CircleShape
-                    ).background(color = if (currentDestination == destination.navDestination) Color.White else Color(0xFF373636)),
+                            CircleShape
+                        ).background(
+                            color = if (currentDestination == destination.navDestination) Color.White else Color(
+                                0xFF373636
+                            )
+                        ),
                     onClick = {
                         onDestinationClicked(
                             destination.navDestination

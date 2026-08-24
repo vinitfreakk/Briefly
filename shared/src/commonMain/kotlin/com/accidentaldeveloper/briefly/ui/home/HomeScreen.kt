@@ -45,6 +45,7 @@ import briefly.shared.generated.resources.Res
 import briefly.shared.generated.resources.ic_bookmark_filled
 import briefly.shared.generated.resources.ic_bookmark_outline
 import briefly.shared.generated.resources.ic_share
+import briefly.shared.generated.resources.ic_browser
 import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.getColorList
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime
@@ -54,7 +55,7 @@ import com.accidentaldeveloper.briefly.ui.components.LoadingView
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun HomeScreen(homeScreenViewModel: HomeScreenViewModel) {
+fun HomeScreen(homeScreenViewModel: HomeScreenViewModel,onCardClicked:()-> Unit) {
     val response by homeScreenViewModel.topHeadlinesResponse.collectAsStateWithLifecycle()
     val newsList = homeScreenViewModel.getNewsTopics()
     val colorList = getColorList()
@@ -90,7 +91,9 @@ fun HomeScreen(homeScreenViewModel: HomeScreenViewModel) {
                                 articleList = (response as TopHeadLinesUiState.Success).topHeadlinesResponse,
                                 selectedTopic = selectedTopic,
                                 onSelectedTopic = { selectedTopic = it },
-                                colorList
+                                colorList = colorList,
+                                onCardClicked = onCardClicked
+
                             )
                         }
                     }
@@ -129,7 +132,7 @@ private fun NewsTopics(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun NewsPager(newsList: List<Article>, colorList: List<Color>) {
+private fun NewsPager(newsList: List<Article>, colorList: List<Color>,onCardClicked:()-> Unit) {
     val pagerState: PagerState = rememberPagerState(initialPage = 0, pageCount = { newsList.size })
 
     HorizontalPager(
@@ -143,7 +146,8 @@ private fun NewsPager(newsList: List<Article>, colorList: List<Color>) {
             headline = newsList[page].title ?: "N/A",
             content = newsList[page].description ?: "N/A",
             author = newsList[page].author ?: "Unknown",
-            time = newsList[page].publishedAt ?: ""
+            time = newsList[page].publishedAt ?: "",
+            onCardClicked = onCardClicked
         )
     }
 }
@@ -154,10 +158,12 @@ private fun PagerItem(
     content: String,
     author: String,
     time: String,
-    color: Color
+    color: Color,
+    onCardClicked:()-> Unit
 ) {
     Card(
         modifier = Modifier
+            .clickable(onClick = onCardClicked)
             .fillMaxHeight(0.8f)
             .fillMaxWidth()
             .padding(vertical = 8.dp),
@@ -239,7 +245,8 @@ private fun PagerItem(
                 modifier = Modifier.align(Alignment.BottomEnd),
                 isBookMarked = false,
                 onBookMarkClicked = { },
-                onShareClicked = { }
+                onShareClicked = { },
+                onBrowserClicked = { }
             )
         }
 
@@ -255,7 +262,8 @@ private fun SuccessUi(
     articleList: List<Article>,
     selectedTopic: String,
     onSelectedTopic: (String) -> Unit,
-    colorList: List<Color>
+    colorList: List<Color>,
+    onCardClicked:()->Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         NewsTopics(
@@ -264,7 +272,7 @@ private fun SuccessUi(
             onSelectedTopic = onSelectedTopic  // just pass it straight through
         )
         Spacer(modifier = Modifier.height(32.dp))
-        NewsPager(articleList, colorList)
+        NewsPager(articleList, colorList,onCardClicked)
     }
 }
 
@@ -272,11 +280,20 @@ private fun SuccessUi(
 private fun ArticleActionRow(
     modifier: Modifier,
     isBookMarked: Boolean,
+    onBrowserClicked:() -> Unit,
     onBookMarkClicked: () -> Unit,
     onShareClicked: () -> Unit
 ) {
     Row(modifier.padding(8.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        IconButton(modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)), onClick = {onShareClicked()}) {
+        IconButton(modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)),onClick = {onBookMarkClicked()}) {
+            Icon(
+                tint = Color.DarkGray,
+                modifier = Modifier.size(28.dp),
+                painter = painterResource(resource = Res.drawable.ic_browser),
+                contentDescription = null
+            )
+        }
+        IconButton(modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)), onClick = {onBrowserClicked()}) {
             Icon(
                 tint = Color.DarkGray,
                 modifier = Modifier.size(28.dp),

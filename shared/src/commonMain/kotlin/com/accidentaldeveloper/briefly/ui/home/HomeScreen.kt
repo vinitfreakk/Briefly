@@ -44,8 +44,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import briefly.shared.generated.resources.Res
 import briefly.shared.generated.resources.ic_bookmark_filled
 import briefly.shared.generated.resources.ic_bookmark_outline
-import briefly.shared.generated.resources.ic_share
 import briefly.shared.generated.resources.ic_browser
+import briefly.shared.generated.resources.ic_share
 import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.getColorList
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime

@@ -5,8 +5,8 @@ import briefly.shared.generated.resources.ic_bookmark_filled
 import briefly.shared.generated.resources.ic_bookmark_outline
 import briefly.shared.generated.resources.ic_home_filled
 import briefly.shared.generated.resources.ic_home_outline
-import briefly.shared.generated.resources.ic_search_outline
 import briefly.shared.generated.resources.ic_search_filled
+import briefly.shared.generated.resources.ic_search_outline
 import org.jetbrains.compose.resources.DrawableResource
 
 sealed interface NavDestination{

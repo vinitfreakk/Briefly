@@ -1,6 +1,5 @@
 package com.accidentaldeveloper.briefly.api
 
-import androidx.room3.Query
 import com.accidentaldeveloper.briefly.api.ApiConstant.EVERYTHING
 import com.accidentaldeveloper.briefly.api.ApiConstant.TOP_HEADLINES_ENDPOINT
 import com.accidentaldeveloper.briefly.model.TopHeadlinesResponse

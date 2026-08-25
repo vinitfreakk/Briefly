@@ -2,9 +2,7 @@ package com.accidentaldeveloper.briefly.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room3.Query
 import com.accidentaldeveloper.briefly.model.Article
-import com.accidentaldeveloper.briefly.model.TopHeadlinesResponse
 import com.accidentaldeveloper.briefly.repository.NewsApiRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow

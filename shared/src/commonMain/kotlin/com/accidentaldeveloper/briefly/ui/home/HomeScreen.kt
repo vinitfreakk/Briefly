@@ -54,10 +54,14 @@ import com.accidentaldeveloper.briefly.navigation.NewsDetailsNavArgs
 import com.accidentaldeveloper.briefly.navigation.toNewsDetails
 import com.accidentaldeveloper.briefly.ui.components.ErrorView
 import com.accidentaldeveloper.briefly.ui.components.LoadingView
+import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel.Companion.TRENDING_TOPIC
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun HomeScreen(homeScreenViewModel: HomeScreenViewModel, onCardClicked: (NewsDetailsNavArgs) -> Unit) {
+fun HomeScreen(
+    homeScreenViewModel: HomeScreenViewModel,
+    onCardClicked: (NewsDetailsNavArgs) -> Unit
+) {
     val response by homeScreenViewModel.topHeadlinesResponse.collectAsStateWithLifecycle()
     val newsList = homeScreenViewModel.getNewsTopics()
     val colorList = getColorList()
@@ -92,7 +96,15 @@ fun HomeScreen(homeScreenViewModel: HomeScreenViewModel, onCardClicked: (NewsDet
                                 newsList = newsList,
                                 articleList = (response as TopHeadLinesUiState.Success).topHeadlinesResponse,
                                 selectedTopic = selectedTopic,
-                                onSelectedTopic = { selectedTopic = it },
+                                onSelectedTopic = {
+                                    selectedTopic = it
+                                    if(it == TRENDING_TOPIC){
+                                        homeScreenViewModel.getTopHeadlines()
+                                    }else{
+                                        homeScreenViewModel.getNewsOfSpecificType(it)
+                                    }
+
+                                },
                                 colorList = colorList,
                                 onCardClicked = onCardClicked
 
@@ -134,7 +146,11 @@ private fun NewsTopics(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun NewsPager(newsList: List<Article>, colorList: List<Color>,onCardClicked:(NewsDetailsNavArgs)-> Unit) {
+private fun NewsPager(
+    newsList: List<Article>,
+    colorList: List<Color>,
+    onCardClicked: (NewsDetailsNavArgs) -> Unit
+) {
     val pagerState: PagerState = rememberPagerState(initialPage = 0, pageCount = { newsList.size })
 
     HorizontalPager(
@@ -163,7 +179,7 @@ private fun PagerItem(
     author: String,
     time: String,
     color: Color,
-    onCardClicked:()-> Unit
+    onCardClicked: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -214,12 +230,12 @@ private fun PagerItem(
                 // Author block — label + name, label de-emphasized, name carries weight
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                text = "PUBLISHED BY",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = 1.2.sp, // wider tracking on small caps-style labels aids legibility
-                color = Color.Black.copy(alpha = 0.45f),
-                overflow = TextOverflow.Ellipsis
+                    text = "PUBLISHED BY",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = 1.2.sp, // wider tracking on small caps-style labels aids legibility
+                    color = Color.Black.copy(alpha = 0.45f),
+                    overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
@@ -259,7 +275,6 @@ private fun PagerItem(
 }
 
 
-
 @Composable
 private fun SuccessUi(
     newsList: List<String>,
@@ -267,7 +282,7 @@ private fun SuccessUi(
     selectedTopic: String,
     onSelectedTopic: (String) -> Unit,
     colorList: List<Color>,
-    onCardClicked:(NewsDetailsNavArgs)->Unit
+    onCardClicked: (NewsDetailsNavArgs) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         NewsTopics(
@@ -276,7 +291,7 @@ private fun SuccessUi(
             onSelectedTopic = onSelectedTopic  // just pass it straight through
         )
         Spacer(modifier = Modifier.height(32.dp))
-        NewsPager(articleList, colorList,onCardClicked)
+        NewsPager(articleList, colorList, onCardClicked)
     }
 }
 
@@ -284,12 +299,14 @@ private fun SuccessUi(
 private fun ArticleActionRow(
     modifier: Modifier,
     isBookMarked: Boolean,
-    onBrowserClicked:() -> Unit,
+    onBrowserClicked: () -> Unit,
     onBookMarkClicked: () -> Unit,
     onShareClicked: () -> Unit
 ) {
     Row(modifier.padding(8.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        IconButton(modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)),onClick = {onBookMarkClicked()}) {
+        IconButton(
+            modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)),
+            onClick = { onBookMarkClicked() }) {
             Icon(
                 tint = Color.DarkGray,
                 modifier = Modifier.size(28.dp),
@@ -297,7 +314,9 @@ private fun ArticleActionRow(
                 contentDescription = null
             )
         }
-        IconButton(modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)), onClick = {onBrowserClicked()}) {
+        IconButton(
+            modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)),
+            onClick = { onBrowserClicked() }) {
             Icon(
                 tint = Color.DarkGray,
                 modifier = Modifier.size(28.dp),
@@ -305,7 +324,9 @@ private fun ArticleActionRow(
                 contentDescription = null
             )
         }
-        IconButton(modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)),onClick = {onBookMarkClicked()}) {
+        IconButton(
+            modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)),
+            onClick = { onBookMarkClicked() }) {
             Icon(
                 tint = Color.DarkGray,
                 modifier = Modifier.size(28.dp),

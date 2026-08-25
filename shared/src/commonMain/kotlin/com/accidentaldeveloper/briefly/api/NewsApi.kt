@@ -1,5 +1,7 @@
 package com.accidentaldeveloper.briefly.api
 
+import androidx.room3.Query
+import com.accidentaldeveloper.briefly.api.ApiConstant.EVERYTHING
 import com.accidentaldeveloper.briefly.api.ApiConstant.TOP_HEADLINES_ENDPOINT
 import com.accidentaldeveloper.briefly.model.TopHeadlinesResponse
 import com.accidentaldeveloper.briefly.network.newsApiClient
@@ -13,5 +15,11 @@ class NewsApi {
             parameter("country", "us")
             parameter("apiKey", "")
         }.body<TopHeadlinesResponse>()
+    }
+    suspend fun getNewsOfSpecificType(query: String): TopHeadlinesResponse{
+        return newsApiClient.get(EVERYTHING){
+            parameter("q",query)
+            parameter("apiKey", "")
+        }.body()
     }
 }

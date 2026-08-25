@@ -75,7 +75,9 @@ fun AppNavigation() {
 
                     is NavDestination.NewsDetails -> {
                         NavEntry(key) {
-                            NewsDetailsScreen(newsDetails = key.newsDetails)
+                            NewsDetailsScreen(newsDetails = key.newsDetails){
+                                backstack.removeLastOrNull()
+                            }
                         }
                     }
                 }

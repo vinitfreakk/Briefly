@@ -36,11 +36,11 @@ import com.accidentaldeveloper.briefly.navigation.NewsDetailsNavArgs
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun NewsDetailsScreen(newsDetails: NewsDetailsNavArgs) {
+fun NewsDetailsScreen(newsDetails: NewsDetailsNavArgs,onBackClicked:()-> Unit) {
     Scaffold(
         containerColor = newsDetails.backGroundColor,
         topBar = {
-            TopBar(modifier = Modifier.statusBarsPadding().padding(16.dp))
+            TopBar(modifier = Modifier.statusBarsPadding().padding(16.dp),onBackClicked)
         },
         modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(24.dp))
     ) { paddingValues ->
@@ -120,11 +120,11 @@ fun NewsDetailsScreen(newsDetails: NewsDetailsNavArgs) {
 }
 
 @Composable
-private fun TopBar(modifier: Modifier) {
+private fun TopBar(modifier: Modifier,onBackClicked: () -> Unit) {
     Row(modifier = modifier.fillMaxWidth()) {
         IconButton(
             modifier = Modifier.size(28.dp).clip(CircleShape)
-                .background(Color.Black.copy(alpha = 0.12f)), onClick = {}) {
+                .background(Color.Black.copy(alpha = 0.12f)), onClick = {onBackClicked()}) {
             Icon(painter = painterResource(Res.drawable.ic_arrow_back), contentDescription = null)
         }
     }

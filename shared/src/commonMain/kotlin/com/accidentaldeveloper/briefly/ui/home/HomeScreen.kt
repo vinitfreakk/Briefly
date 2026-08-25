@@ -214,12 +214,12 @@ private fun PagerItem(
                 // Author block — label + name, label de-emphasized, name carries weight
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "PUBLISHED BY",
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    letterSpacing = 1.2.sp, // wider tracking on small caps-style labels aids legibility
-                    color = Color.Black.copy(alpha = 0.45f),
-                    overflow = TextOverflow.Ellipsis
+                text = "PUBLISHED BY",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = 1.2.sp, // wider tracking on small caps-style labels aids legibility
+                color = Color.Black.copy(alpha = 0.45f),
+                overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(

@@ -7,7 +7,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 
-class NewsApi() {
+class NewsApi {
     suspend fun getTopHeadlines(): TopHeadlinesResponse{
         return newsApiClient.get(TOP_HEADLINES_ENDPOINT){
             parameter("country", "us")

@@ -82,4 +82,9 @@ class HomeScreenViewModel(private val newsApiRepository: NewsApiRepository) : Vi
         const val POLITICS_TOPIC = "Politics"
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        fetchJob = null
+    }
+
 }

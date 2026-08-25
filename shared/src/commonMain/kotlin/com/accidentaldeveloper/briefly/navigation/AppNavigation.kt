@@ -26,6 +26,7 @@ import com.accidentaldeveloper.briefly.ui.home.HomeScreen
 import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel
 import com.accidentaldeveloper.briefly.ui.newsDetails.NewsDetailsScreen
 import com.accidentaldeveloper.briefly.ui.search.SearchScreen
+import com.accidentaldeveloper.briefly.ui.search.SearchViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -62,7 +63,8 @@ fun AppNavigation() {
 
                     NavDestination.SearchScreen -> {
                         NavEntry(key) {
-                            SearchScreen()
+                            val searchScreenViewModel: SearchViewModel = koinViewModel()
+                            SearchScreen(searchScreenViewModel)
                         }
                     }
 

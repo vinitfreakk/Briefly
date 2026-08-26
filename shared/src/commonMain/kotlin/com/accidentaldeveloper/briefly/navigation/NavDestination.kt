@@ -15,6 +15,8 @@ sealed interface NavDestination{
     data class NewsDetails(val newsDetails: NewsDetailsNavArgs): NavDestination
     data object SearchScreen: NavDestination
     data object BookMarkScreen: NavDestination
+
+    data object SettingsScreen: NavDestination
 }
 
 enum class BottomBarDestination( val navDestination: NavDestination,val selectedIcon: DrawableResource,val unSelectedIcon: DrawableResource) {

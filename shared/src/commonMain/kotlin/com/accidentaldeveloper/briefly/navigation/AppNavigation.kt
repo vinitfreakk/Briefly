@@ -27,6 +27,7 @@ import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel
 import com.accidentaldeveloper.briefly.ui.newsDetails.NewsDetailsScreen
 import com.accidentaldeveloper.briefly.ui.search.SearchScreen
 import com.accidentaldeveloper.briefly.ui.search.SearchViewModel
+import com.accidentaldeveloper.briefly.ui.settings.SettingsScreen
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -57,6 +58,8 @@ fun AppNavigation() {
                             val homeScreenViewModel: HomeScreenViewModel = koinViewModel()
                             HomeScreen(homeScreenViewModel, onCardClicked = {newsDetails->
                                 backstack.add(NavDestination.NewsDetails(newsDetails))
+                            }, onSettingsClicked = {
+                                backstack.add(NavDestination.SettingsScreen)
                             })
                         }
                     }
@@ -83,11 +86,17 @@ fun AppNavigation() {
                             }
                         }
                     }
+
+                    NavDestination.SettingsScreen->{
+                        NavEntry(key){
+                           SettingsScreen()
+                        }
+                    }
                 }
             }
         )
 
-        if(currentDestination !is NavDestination.NewsDetails){
+        if(currentDestination !is NavDestination.NewsDetails && currentDestination != NavDestination.SettingsScreen){
             // Floating Bottom Bar
             AppBottomBar(
                 currentDestination = currentDestination,

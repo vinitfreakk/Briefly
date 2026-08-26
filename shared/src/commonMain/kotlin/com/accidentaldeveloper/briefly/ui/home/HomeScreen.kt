@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -34,18 +33,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import briefly.shared.generated.resources.Res
-import briefly.shared.generated.resources.ic_bookmark_filled
-import briefly.shared.generated.resources.ic_bookmark_outline
-import briefly.shared.generated.resources.ic_browser
-import briefly.shared.generated.resources.ic_share
+import briefly.shared.generated.resources.ic_settings
 import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.getColorList
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime
@@ -61,20 +57,15 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun HomeScreen(
     homeScreenViewModel: HomeScreenViewModel,
-    onCardClicked: (NewsDetailsNavArgs) -> Unit
+    onCardClicked: (NewsDetailsNavArgs) -> Unit,
+    onSettingsClicked: () -> Unit
 ) {
     val response by homeScreenViewModel.topHeadlinesResponse.collectAsStateWithLifecycle()
     val newsList = homeScreenViewModel.getNewsTopics()
     val colorList = getColorList()
     var selectedTopic by remember { mutableStateOf("Trending") }
     Scaffold(topBar = {
-        Text(
-            text = "Briefly",
-            modifier = Modifier.statusBarsPadding().padding(16.dp),
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White
-        )
+        TopBar(modifier = Modifier.statusBarsPadding().padding(16.dp), onSettingsClicked = onSettingsClicked)
     }, containerColor = Color.Black) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues).fillMaxSize().background(Color.Black)) {
             Column(modifier = Modifier.padding(16.dp).fillMaxSize().background(Color.Black)) {
@@ -99,9 +90,9 @@ fun HomeScreen(
                                 selectedTopic = selectedTopic,
                                 onSelectedTopic = {
                                     selectedTopic = it
-                                    if(it == TRENDING_TOPIC){
+                                    if (it == TRENDING_TOPIC) {
                                         homeScreenViewModel.getTopHeadlines()
-                                    }else{
+                                    } else {
                                         homeScreenViewModel.getNewsOfSpecificType(it)
                                     }
 
@@ -293,5 +284,28 @@ private fun SuccessUi(
         )
         Spacer(modifier = Modifier.height(32.dp))
         NewsPager(articleList, colorList, onCardClicked)
+    }
+}
+
+
+@Composable
+private fun TopBar(modifier: Modifier,onSettingsClicked: () -> Unit) {
+    Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Text(
+            text = "Briefly",
+            fontSize = 32.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White
+        )
+
+        Icon(
+            painter = painterResource(Res.drawable.ic_settings),
+            contentDescription = "Settings",
+            tint = Color.White,
+            modifier = Modifier
+                .padding(top = 4.dp)
+                .size(24.dp)
+                .clickable {onSettingsClicked() }
+        )
     }
 }

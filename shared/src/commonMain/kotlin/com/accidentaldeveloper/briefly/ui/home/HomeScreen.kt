@@ -52,6 +52,7 @@ import com.accidentaldeveloper.briefly.Utils.toRelativeTime
 import com.accidentaldeveloper.briefly.model.Article
 import com.accidentaldeveloper.briefly.navigation.NewsDetailsNavArgs
 import com.accidentaldeveloper.briefly.navigation.toNewsDetails
+import com.accidentaldeveloper.briefly.ui.components.ArticleActionRow
 import com.accidentaldeveloper.briefly.ui.components.ErrorView
 import com.accidentaldeveloper.briefly.ui.components.LoadingView
 import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel.Companion.TRENDING_TOPIC
@@ -292,47 +293,5 @@ private fun SuccessUi(
         )
         Spacer(modifier = Modifier.height(32.dp))
         NewsPager(articleList, colorList, onCardClicked)
-    }
-}
-
-@Composable
-private fun ArticleActionRow(
-    modifier: Modifier,
-    isBookMarked: Boolean,
-    onBrowserClicked: () -> Unit,
-    onBookMarkClicked: () -> Unit,
-    onShareClicked: () -> Unit
-) {
-    Row(modifier.padding(8.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        IconButton(
-            modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)),
-            onClick = { onBookMarkClicked() }) {
-            Icon(
-                tint = Color.DarkGray,
-                modifier = Modifier.size(28.dp),
-                painter = painterResource(resource = Res.drawable.ic_browser),
-                contentDescription = null
-            )
-        }
-        IconButton(
-            modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)),
-            onClick = { onBrowserClicked() }) {
-            Icon(
-                tint = Color.DarkGray,
-                modifier = Modifier.size(28.dp),
-                painter = painterResource(resource = Res.drawable.ic_share),
-                contentDescription = null
-            )
-        }
-        IconButton(
-            modifier = Modifier.clip(CircleShape).background(Color.Black.copy(alpha = 0.12f)),
-            onClick = { onBookMarkClicked() }) {
-            Icon(
-                tint = Color.DarkGray,
-                modifier = Modifier.size(28.dp),
-                painter = painterResource(resource = if (isBookMarked) Res.drawable.ic_bookmark_filled else Res.drawable.ic_bookmark_outline),
-                contentDescription = null
-            )
-        }
     }
 }

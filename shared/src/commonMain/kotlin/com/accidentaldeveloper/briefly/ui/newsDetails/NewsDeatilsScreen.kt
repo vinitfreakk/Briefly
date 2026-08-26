@@ -1,6 +1,7 @@
 package com.accidentaldeveloper.briefly.ui.newsDetails
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -33,10 +39,13 @@ import coil3.compose.AsyncImage
 import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime
 import com.accidentaldeveloper.briefly.navigation.NewsDetailsNavArgs
+import com.accidentaldeveloper.briefly.ui.components.ArticleActionRow
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun NewsDetailsScreen(newsDetails: NewsDetailsNavArgs,onBackClicked:()-> Unit) {
+    var imageLoaded by remember { mutableStateOf(false) }
+
     Scaffold(
         containerColor = newsDetails.backGroundColor,
         topBar = {
@@ -108,12 +117,28 @@ fun NewsDetailsScreen(newsDetails: NewsDetailsNavArgs,onBackClicked:()-> Unit) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            AsyncImage(
-                model = newsDetails.urlToImage,
-                contentDescription = newsDetails.title,
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)),
-                contentScale = ContentScale.Crop
-            )
+            Box(modifier = Modifier){
+                AsyncImage(
+                    model = newsDetails.urlToImage,
+                    contentDescription = newsDetails.title,
+                    modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)),
+                    contentScale = ContentScale.Crop,
+                    onSuccess = {
+                        imageLoaded = true
+                    }
+                )
+
+                if(imageLoaded)
+                    ArticleActionRow(
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    isBookMarked = false,
+                    onBookMarkClicked = { },
+                    onShareClicked = { },
+                    onBrowserClicked = { },
+                    iconColor = Color.White,
+                    iconBackGroundColor = Color.DarkGray
+                )
+            }
 
         }
     }

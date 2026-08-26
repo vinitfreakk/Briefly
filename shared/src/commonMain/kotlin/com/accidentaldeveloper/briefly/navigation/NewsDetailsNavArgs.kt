@@ -16,7 +16,7 @@ data class NewsDetailsNavArgs(
     val urlToImage: String?
 )
 
-fun Article.toNewsDetails(backGroundColor: Color): NewsDetailsNavArgs {
+fun Article.toNewsDetails(backGroundColor: Color,content: String?=this.content): NewsDetailsNavArgs {
     return NewsDetailsNavArgs(
         backGroundColor = backGroundColor,
         author = this.author,

@@ -64,7 +64,9 @@ fun AppNavigation() {
                     NavDestination.SearchScreen -> {
                         NavEntry(key) {
                             val searchScreenViewModel: SearchViewModel = koinViewModel()
-                            SearchScreen(searchScreenViewModel)
+                            SearchScreen(searchScreenViewModel, onNewsClicked = {newsDeatils->
+                                backstack.add(NavDestination.NewsDetails(newsDeatils))
+                            })
                         }
                     }
 

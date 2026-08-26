@@ -1,6 +1,7 @@
 package com.accidentaldeveloper.briefly.ui.search
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,14 +45,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import briefly.shared.generated.resources.Res
 import briefly.shared.generated.resources.ic_search_filled
 import coil3.compose.AsyncImage
+import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.getColorList
+import com.accidentaldeveloper.briefly.model.Article
+import com.accidentaldeveloper.briefly.navigation.NewsDetailsNavArgs
+import com.accidentaldeveloper.briefly.navigation.toNewsDetails
 import com.accidentaldeveloper.briefly.ui.components.ErrorView
 import com.accidentaldeveloper.briefly.ui.components.LoadingView
+import io.ktor.http.cio.Response
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun SearchScreen(
-    searchScreenViewModel: SearchViewModel
+    searchScreenViewModel: SearchViewModel,
+    onNewsClicked: (newsDetails: NewsDetailsNavArgs) -> Unit
 ) {
     var searchText by remember { mutableStateOf("") }
 
@@ -100,23 +107,7 @@ fun SearchScreen(
 
                 is SearchUiState.Success -> {
                     val response = (response as SearchUiState.Success).newsList
-
-                    LazyColumn {
-                        item {
-                            Spacer(modifier = Modifier.height(16.dp))
-                        }
-                        items(response.size) { index ->
-                            val color = colorList[index % colorList.size]
-                            ListItem(
-                                url = response[index].urlToImage,
-                                headline = response[index].title ?: response[index].content
-                                ?: response[index].description ?: "NA",
-                                color
-                            )
-                            Spacer(modifier = Modifier.height(14.dp))
-                        }
-
-                    }
+                    SuccessUi(response,colorList,onNewsClicked)
                 }
 
                 is SearchUiState.Error -> {
@@ -208,9 +199,21 @@ private fun SearchBar(
 }
 
 @Composable
-private fun ListItem(url: String?, headline: String, color: Color) {
+private fun ListItem(
+    article: Article,
+    color: Color,
+    onNewsClicked: (newsDetails: NewsDetailsNavArgs) -> Unit
+) {
     Card(
-        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)),
+        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp))
+            .clickable(onClick = {
+                onNewsClicked(
+                    article.toNewsDetails(
+                        color,
+                        content = article.content?.cleanArticleText()
+                    )
+                )
+            }),
         colors = CardDefaults.cardColors(
             containerColor = color
         )
@@ -221,14 +224,14 @@ private fun ListItem(url: String?, headline: String, color: Color) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = url,
+                model = article.urlToImage,
                 contentDescription = null,
                 modifier = Modifier.size(100.dp).clip(RoundedCornerShape(20.dp))
                     .background(Color.White),
                 contentScale = ContentScale.Crop,
             )
             Text(
-                text = headline,
+                text = article.title ?: "NA",
                 maxLines = 4,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp,
@@ -236,5 +239,24 @@ private fun ListItem(url: String?, headline: String, color: Color) {
                 overflow = TextOverflow.Ellipsis
             )
         }
+    }
+}
+
+@Composable
+private fun SuccessUi(response: List<Article>,colorList: List<Color>,onNewsClicked:(newsDetails: NewsDetailsNavArgs)-> Unit){
+    LazyColumn {
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        items(response.size) { index ->
+            val color = colorList[index % colorList.size]
+            ListItem(
+                article = response[index],
+                color,
+                onNewsClicked = onNewsClicked
+            )
+            Spacer(modifier = Modifier.height(14.dp))
+        }
+
     }
 }

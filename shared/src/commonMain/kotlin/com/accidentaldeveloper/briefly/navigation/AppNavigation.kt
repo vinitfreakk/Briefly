@@ -28,6 +28,7 @@ import com.accidentaldeveloper.briefly.ui.newsDetails.NewsDetailsScreen
 import com.accidentaldeveloper.briefly.ui.search.SearchScreen
 import com.accidentaldeveloper.briefly.ui.search.SearchViewModel
 import com.accidentaldeveloper.briefly.ui.settings.SettingsScreen
+import com.accidentaldeveloper.briefly.ui.settings.SettingsViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -89,7 +90,8 @@ fun AppNavigation() {
 
                     NavDestination.SettingsScreen->{
                         NavEntry(key){
-                           SettingsScreen()
+                            val settingsViewModel: SettingsViewModel = koinViewModel()
+                           SettingsScreen(settingsViewModel,onSaveClick = {})
                         }
                     }
                 }

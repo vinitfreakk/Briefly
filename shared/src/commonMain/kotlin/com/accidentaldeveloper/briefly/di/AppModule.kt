@@ -5,6 +5,7 @@ import com.accidentaldeveloper.briefly.repository.NewsApiRepository
 import com.accidentaldeveloper.briefly.repository.NewsApiRepositoryImpl
 import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel
 import com.accidentaldeveloper.briefly.ui.search.SearchViewModel
+import com.accidentaldeveloper.briefly.ui.settings.SettingsViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
@@ -25,6 +26,10 @@ val appModule = module {
 
     viewModel {
         SearchViewModel(get())
+    }
+
+    viewModel {
+        SettingsViewModel()
     }
 }
 

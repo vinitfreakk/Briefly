@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-sealed class TopHeadLinesUiState(){
-    data object Initial: TopHeadLinesUiState()
-    data object Loading: TopHeadLinesUiState()
-    data class Success(val topHeadlinesResponse: List<Article>): TopHeadLinesUiState()
-    data class Error(val error: String): TopHeadLinesUiState()
+sealed interface TopHeadLinesUiState{
+    data object Initial: TopHeadLinesUiState
+    data object Loading: TopHeadLinesUiState
+    data class Success(val topHeadlinesResponse: List<Article>): TopHeadLinesUiState
+    data class Error(val error: String): TopHeadLinesUiState
 }
 class HomeScreenViewModel(private val newsApiRepository: NewsApiRepository) : ViewModel() {
 

@@ -26,10 +26,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.accidentaldeveloper.briefly.ui.components.ErrorView
+import com.accidentaldeveloper.briefly.ui.components.LoadingView
 
 @Composable
-fun SettingsScreen(settingsViewModel: SettingsViewModel,onSaveClick: () -> Unit) {
-    var apiKey by remember { mutableStateOf("") }
+fun SettingsScreen(settingsViewModel: SettingsViewModel) {
+    val apiKey by settingsViewModel.apiKey.collectAsStateWithLifecycle()
+    var draftApiKey by remember(apiKey) { mutableStateOf((apiKey as? SettingsUiState.Success)?.string.orEmpty()) }
+
     Scaffold(
         containerColor = Color.Black,
         topBar = {
@@ -44,7 +49,8 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel,onSaveClick: () -> Unit)
             .clip(RoundedCornerShape(24.dp))
     ) { paddingValues ->
 
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp),
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(16.dp)
@@ -52,8 +58,8 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel,onSaveClick: () -> Unit)
         ) {
 
             TextField(
-                value = apiKey, onValueChange = {
-                    apiKey = it
+                value = draftApiKey, onValueChange = {
+                    draftApiKey = it
                 }, maxLines = 1,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(30.dp),
@@ -67,17 +73,29 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel,onSaveClick: () -> Unit)
                     unfocusedTextColor = Color.White
                 ),
                 placeholder = {
-                    Text(
-                        text = "API KEY",
-                        color = Color.Gray
-                    )
+                    Text(text = "API KEY", color = Color.Gray)
                 }, visualTransformation = PasswordVisualTransformation()
             )
 
+            // Loading / Error feedback, driven by the sealed state
+            when (apiKey) {
+                is SettingsUiState.Loading -> {
+                    LoadingView(modifier = Modifier.fillMaxWidth())
+                }
+                is SettingsUiState.Error -> {
+                    ErrorView(
+                        message = (apiKey as SettingsUiState.Error).error,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                is SettingsUiState.Success, SettingsUiState.Initial -> Unit
+            }
+
             Button(
                 modifier = Modifier.fillMaxWidth(0.3f),
+                enabled = apiKey !is SettingsUiState.Loading,
                 onClick = {
-                    onSaveClick()
+                    settingsViewModel.saveApiKey(draftApiKey)
                 },
                 colors = ButtonColors(
                     containerColor = Color.DarkGray,
@@ -88,7 +106,6 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel,onSaveClick: () -> Unit)
             ) {
                 Text("Save", color = Color.White)
             }
-
         }
     }
 }

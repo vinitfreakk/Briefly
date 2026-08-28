@@ -91,7 +91,7 @@ fun AppNavigation() {
                     NavDestination.SettingsScreen->{
                         NavEntry(key){
                             val settingsViewModel: SettingsViewModel = koinViewModel()
-                           SettingsScreen(settingsViewModel,onSaveClick = {})
+                           SettingsScreen(settingsViewModel)
                         }
                     }
                 }

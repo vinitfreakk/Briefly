@@ -2,6 +2,7 @@ package com.accidentaldeveloper.briefly.di
 
 import com.accidentaldeveloper.briefly.api.NewsApi
 import com.accidentaldeveloper.briefly.datastore.DataStoreManager
+import com.accidentaldeveloper.briefly.network.BrieflyClient
 import com.accidentaldeveloper.briefly.repository.NewsApiRepository
 import com.accidentaldeveloper.briefly.repository.NewsApiRepositoryImpl
 import com.accidentaldeveloper.briefly.repository.SettingsRepository
@@ -13,11 +14,14 @@ import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
-import kotlin.math.sin
 
 val appModule = module {
     single<NewsApi> {
-        NewsApi()
+        NewsApi(get())
+    }
+
+    single {
+        BrieflyClient(get())
     }
 
     single<NewsApiRepository> {

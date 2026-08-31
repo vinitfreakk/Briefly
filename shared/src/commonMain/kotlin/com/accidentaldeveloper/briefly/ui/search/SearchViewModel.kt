@@ -1,10 +1,8 @@
 package com.accidentaldeveloper.briefly.ui.search
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.accidentaldeveloper.briefly.model.Article
-import com.accidentaldeveloper.briefly.model.NewsApiException
 import com.accidentaldeveloper.briefly.repository.NewsApiRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow

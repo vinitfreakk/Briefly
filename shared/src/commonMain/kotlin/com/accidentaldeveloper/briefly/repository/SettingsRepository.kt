@@ -1,7 +1,6 @@
 package com.accidentaldeveloper.briefly.repository
 
 import com.accidentaldeveloper.briefly.datastore.DataStoreManager
-import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
     suspend fun getApiKey(): String

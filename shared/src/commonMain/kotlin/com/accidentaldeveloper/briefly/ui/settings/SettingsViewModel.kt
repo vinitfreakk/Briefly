@@ -23,7 +23,6 @@ class SettingsViewModel(private val repository: SettingsRepository) : ViewModel(
     init {
         getApiKey()
     }
-
     fun saveApiKey(key: String) {
         viewModelScope.launch {
             _apiKey.value = SettingsUiState.Loading

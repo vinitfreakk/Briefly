@@ -52,7 +52,6 @@ import com.accidentaldeveloper.briefly.navigation.NewsDetailsNavArgs
 import com.accidentaldeveloper.briefly.navigation.toNewsDetails
 import com.accidentaldeveloper.briefly.ui.components.ErrorView
 import com.accidentaldeveloper.briefly.ui.components.LoadingView
-import io.ktor.http.cio.Response
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

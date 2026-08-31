@@ -1,8 +1,13 @@
 package com.accidentaldeveloper.briefly.di
 
 import com.accidentaldeveloper.briefly.api.NewsApi
+import com.accidentaldeveloper.briefly.database.AppDatabase
+import com.accidentaldeveloper.briefly.database.NewsDao
+import com.accidentaldeveloper.briefly.database.createDatabase
 import com.accidentaldeveloper.briefly.datastore.DataStoreManager
 import com.accidentaldeveloper.briefly.network.BrieflyClient
+import com.accidentaldeveloper.briefly.repository.BookMarkRepository
+import com.accidentaldeveloper.briefly.repository.BookMarkRepositoryImpl
 import com.accidentaldeveloper.briefly.repository.NewsApiRepository
 import com.accidentaldeveloper.briefly.repository.NewsApiRepositoryImpl
 import com.accidentaldeveloper.briefly.repository.SettingsRepository
@@ -46,6 +51,18 @@ val appModule = module {
 
     single<SettingsRepository> {
         SettingsRepositoryImpl(get())
+    }
+
+    single<AppDatabase> {
+        createDatabase(get())
+    }
+
+    single<NewsDao> {
+        get<AppDatabase>().newsDao()
+    }
+
+    single<BookMarkRepository> {
+        BookMarkRepositoryImpl(get())
     }
 }
 

@@ -29,3 +29,16 @@ fun Article.toNewsDetails(backGroundColor: Color,content: String?=this.content):
         urlToImage = this.urlToImage
     )
 }
+
+fun NewsDetailsNavArgs.toNewsDetails(): Article {
+    return Article(
+        author = this.author,
+        content = this.content,
+        description = this.description,
+        publishedAt = this.publishedAt,
+        source = this.source,
+        title = this.title,
+        url = this.url,
+        urlToImage = this.urlToImage
+    )
+}

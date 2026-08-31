@@ -20,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,18 +34,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import briefly.shared.generated.resources.Res
 import briefly.shared.generated.resources.ic_arrow_back
 import coil3.compose.AsyncImage
 import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime
 import com.accidentaldeveloper.briefly.navigation.NewsDetailsNavArgs
+import com.accidentaldeveloper.briefly.navigation.toNewsDetails
 import com.accidentaldeveloper.briefly.ui.components.ArticleActionRow
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun NewsDetailsScreen(newsDetails: NewsDetailsNavArgs,onBackClicked:()-> Unit) {
+fun NewsDetailsScreen(newsDetails: NewsDetailsNavArgs,detailsViewModel: DetailsViewModel,onBackClicked:()-> Unit) {
+    LaunchedEffect(Unit){
+        detailsViewModel.observeBookMarkStatus(newsDetails.toNewsDetails())
+    }
     var imageLoaded by remember { mutableStateOf(false) }
+    val isBookMarked by detailsViewModel.isBookMarked.collectAsStateWithLifecycle()
 
     Scaffold(
         containerColor = newsDetails.backGroundColor,
@@ -131,8 +138,8 @@ fun NewsDetailsScreen(newsDetails: NewsDetailsNavArgs,onBackClicked:()-> Unit) {
                 if(imageLoaded)
                     ArticleActionRow(
                     modifier = Modifier.align(Alignment.BottomEnd),
-                    isBookMarked = false,
-                    onBookMarkClicked = { },
+                    isBookMarked = isBookMarked,
+                    onBookMarkClicked = {detailsViewModel.toggleNews(newsDetails.toNewsDetails())},
                     onShareClicked = { },
                     onBrowserClicked = { },
                     iconColor = Color.White,

@@ -32,15 +32,6 @@ import briefly.shared.generated.resources.ic_browser
 import briefly.shared.generated.resources.ic_share
 import org.jetbrains.compose.resources.painterResource
 
-/*
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun LoadingView(modifier: Modifier = Modifier) {
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        LoadingIndicator(color = Color.DarkGray)
-    }
-}*/
-
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LoadingView(modifier: Modifier = Modifier) {

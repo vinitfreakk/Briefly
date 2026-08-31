@@ -13,6 +13,7 @@ import com.accidentaldeveloper.briefly.repository.NewsApiRepositoryImpl
 import com.accidentaldeveloper.briefly.repository.SettingsRepository
 import com.accidentaldeveloper.briefly.repository.SettingsRepositoryImpl
 import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel
+import com.accidentaldeveloper.briefly.ui.newsDetails.DetailsViewModel
 import com.accidentaldeveloper.briefly.ui.search.SearchViewModel
 import com.accidentaldeveloper.briefly.ui.settings.SettingsViewModel
 import org.koin.core.context.startKoin
@@ -63,6 +64,9 @@ val appModule = module {
 
     single<BookMarkRepository> {
         BookMarkRepositoryImpl(get())
+    }
+    viewModel {
+        DetailsViewModel(get())
     }
 }
 

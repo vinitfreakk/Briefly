@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface NewsDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM news WHERE newsId = :newsId)")
-    suspend fun isBookMarked(newsId: String): Boolean
+    fun isBookMarked(newsId: String): Flow<Boolean>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveNews(newsEntity: NewsEntity)

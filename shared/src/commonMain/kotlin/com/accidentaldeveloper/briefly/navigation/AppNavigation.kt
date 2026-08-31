@@ -24,6 +24,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.accidentaldeveloper.briefly.ui.bookmark.BookMarkScreen
 import com.accidentaldeveloper.briefly.ui.home.HomeScreen
 import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel
+import com.accidentaldeveloper.briefly.ui.newsDetails.DetailsViewModel
 import com.accidentaldeveloper.briefly.ui.newsDetails.NewsDetailsScreen
 import com.accidentaldeveloper.briefly.ui.search.SearchScreen
 import com.accidentaldeveloper.briefly.ui.search.SearchViewModel
@@ -82,7 +83,8 @@ fun AppNavigation() {
 
                     is NavDestination.NewsDetails -> {
                         NavEntry(key) {
-                            NewsDetailsScreen(newsDetails = key.newsDetails){
+                            val detailsViewModel: DetailsViewModel = koinViewModel()
+                            NewsDetailsScreen(newsDetails = key.newsDetails,detailsViewModel=detailsViewModel){
                                 backstack.removeLastOrNull()
                             }
                         }

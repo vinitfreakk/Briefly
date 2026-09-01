@@ -12,7 +12,7 @@ interface BookMarkRepository {
 
     suspend fun deleteBookMark(newsId: String)
 
-    suspend fun getAllNews(): Flow<List<NewsEntity>>
+    fun getAllNews(): Flow<List<NewsEntity>>
 }
 
 class BookMarkRepositoryImpl(private val newsDao: NewsDao): BookMarkRepository {
@@ -34,7 +34,7 @@ class BookMarkRepositoryImpl(private val newsDao: NewsDao): BookMarkRepository {
         newsDao.deleteNewsById(newsId)
     }
 
-    override suspend fun getAllNews(): Flow<List<NewsEntity>> {
+    override fun getAllNews(): Flow<List<NewsEntity>> {
         return newsDao.getAllNews()
     }
 }

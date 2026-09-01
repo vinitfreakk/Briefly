@@ -12,6 +12,7 @@ import com.accidentaldeveloper.briefly.repository.NewsApiRepository
 import com.accidentaldeveloper.briefly.repository.NewsApiRepositoryImpl
 import com.accidentaldeveloper.briefly.repository.SettingsRepository
 import com.accidentaldeveloper.briefly.repository.SettingsRepositoryImpl
+import com.accidentaldeveloper.briefly.ui.bookmark.BookMarkViewmodel
 import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel
 import com.accidentaldeveloper.briefly.ui.newsDetails.DetailsViewModel
 import com.accidentaldeveloper.briefly.ui.search.SearchViewModel
@@ -67,6 +68,9 @@ val appModule = module {
     }
     viewModel {
         DetailsViewModel(get())
+    }
+    viewModel {
+        BookMarkViewmodel(get())
     }
 }
 

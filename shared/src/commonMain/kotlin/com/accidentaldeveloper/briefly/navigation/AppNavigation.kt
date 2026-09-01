@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.accidentaldeveloper.briefly.ui.bookmark.BookMarkScreen
+import com.accidentaldeveloper.briefly.ui.bookmark.BookMarkViewmodel
 import com.accidentaldeveloper.briefly.ui.home.HomeScreen
 import com.accidentaldeveloper.briefly.ui.home.HomeScreenViewModel
 import com.accidentaldeveloper.briefly.ui.newsDetails.DetailsViewModel
@@ -69,15 +70,18 @@ fun AppNavigation() {
                     NavDestination.SearchScreen -> {
                         NavEntry(key) {
                             val searchScreenViewModel: SearchViewModel = koinViewModel()
-                            SearchScreen(searchScreenViewModel, onNewsClicked = {newsDeatils->
-                                backstack.add(NavDestination.NewsDetails(newsDeatils))
+                            SearchScreen(searchScreenViewModel, onNewsClicked = {newsDetails->
+                                backstack.add(NavDestination.NewsDetails(newsDetails))
                             })
                         }
                     }
 
                     NavDestination.BookMarkScreen -> {
                         NavEntry(key) {
-                            BookMarkScreen()
+                            val bookMarkViewmodel: BookMarkViewmodel = koinViewModel()
+                            BookMarkScreen(bookMarkViewmodel, onNewsClicked = {newsDetails->
+                                backstack.add(NavDestination.NewsDetails(newsDetails))
+                            })
                         }
                     }
 

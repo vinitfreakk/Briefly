@@ -254,6 +254,7 @@ private fun PagerItem(
             ArticleActionRow(
                 modifier = Modifier.align(Alignment.BottomEnd),
                 isBookMarked = false,
+                isBookMarkIconVisible = false,
                 onBookMarkClicked = { },
                 onShareClicked = { },
                 onBrowserClicked = { }

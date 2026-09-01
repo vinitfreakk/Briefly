@@ -65,6 +65,7 @@ fun ErrorView(modifier: Modifier = Modifier, message: String) {
 fun ArticleActionRow(
     modifier: Modifier,
     isBookMarked: Boolean,
+    isBookMarkIconVisible: Boolean = true,
     onBrowserClicked: () -> Unit,
     onBookMarkClicked: () -> Unit,
     onShareClicked: () -> Unit,
@@ -92,15 +93,17 @@ fun ArticleActionRow(
                 contentDescription = null
             )
         }
-        IconButton(
-            modifier = Modifier.clip(CircleShape).background(iconBackGroundColor),
-            onClick = { onBookMarkClicked() }) {
-            Icon(
-                tint = iconColor,
-                modifier = Modifier.size(28.dp),
-                painter = painterResource(resource = if (isBookMarked) Res.drawable.ic_bookmark_filled else Res.drawable.ic_bookmark_outline),
-                contentDescription = null
-            )
+        if(isBookMarkIconVisible){
+            IconButton(
+                modifier = Modifier.clip(CircleShape).background(iconBackGroundColor),
+                onClick = { onBookMarkClicked() }) {
+                Icon(
+                    tint = iconColor,
+                    modifier = Modifier.size(28.dp),
+                    painter = painterResource(resource = if (isBookMarked) Res.drawable.ic_bookmark_filled else Res.drawable.ic_bookmark_outline),
+                    contentDescription = null
+                )
+            }
         }
     }
 }

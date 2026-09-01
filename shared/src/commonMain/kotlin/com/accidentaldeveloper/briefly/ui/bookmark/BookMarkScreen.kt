@@ -1,5 +1,6 @@
 package com.accidentaldeveloper.briefly.ui.bookmark
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -19,10 +20,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalSlider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -96,25 +99,32 @@ private fun SuccessUi(
     colorList: List<Color>,
     onCardClicked: (NewsDetailsNavArgs) -> Unit
 ) {
-    val pagerState: PagerState = rememberPagerState(0, pageCount = { newsList.size })
-    VerticalPager(
-        state = pagerState,
-        pageSize = PageSize.Fixed(560.dp),
-        modifier = Modifier.fillMaxHeight().fillMaxWidth(),
-        contentPadding = PaddingValues(top = 16.dp, bottom = 60.dp),
-        pageSpacing = 12.dp
-    ) { page ->
-        val cyclicColor = colorList[page % colorList.size]
-        PagerItem(
-            modifier = Modifier.fillMaxSize(), // fill the slot left after contentPadding
-            color = cyclicColor,
-            headline = newsList[page].title ?: "N/A",
-            content = newsList[page].description ?: "N/A",
-            author = newsList[page].author ?: "Unknown",
-            time = newsList[page].publishedAt ?: "",
-            onCardClicked = {
-                onCardClicked(newsList[page].toNewsDetails(cyclicColor))
-            }
-        )
+    if (newsList.isNotEmpty()) {
+        val pagerState: PagerState = rememberPagerState(0, pageCount = { newsList.size })
+        VerticalPager(
+            state = pagerState,
+            pageSize = PageSize.Fixed(560.dp),
+            modifier = Modifier.fillMaxHeight().fillMaxWidth(),
+            contentPadding = PaddingValues(top = 16.dp, bottom = 60.dp),
+            pageSpacing = 12.dp
+        ) { page ->
+            val cyclicColor = colorList[page % colorList.size]
+            PagerItem(
+                modifier = Modifier.fillMaxSize(), // fill the slot left after contentPadding
+                color = cyclicColor,
+                headline = newsList[page].title ?: "N/A",
+                content = newsList[page].description ?: "N/A",
+                author = newsList[page].author ?: "Unknown",
+                time = newsList[page].publishedAt ?: "",
+                onCardClicked = {
+                    onCardClicked(newsList[page].toNewsDetails(cyclicColor))
+                }
+            )
+        }
+    } else {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text("No Bookmarks Found", color = Color.White , textAlign = TextAlign.Center)
+        }
     }
+
 }

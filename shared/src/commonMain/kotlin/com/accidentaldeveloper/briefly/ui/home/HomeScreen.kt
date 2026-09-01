@@ -68,34 +68,31 @@ fun HomeScreen(
     }, containerColor = Color.Black) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues).fillMaxSize().background(Color.Black)) {
             Column(modifier = Modifier.padding(16.dp).fillMaxSize().background(Color.Black)) {
+                NewsTopics(
+                    newsList,
+                    selectedTopic,
+                    onSelectedTopic = {
+                        selectedTopic = it
+                        if (it == TRENDING_TOPIC) {
+                            homeScreenViewModel.getTopHeadlines()
+                        } else {
+                            homeScreenViewModel.getNewsOfSpecificType(it)
+                        }
+
+                    }
+                )
+                Spacer(modifier = Modifier.height(32.dp))
                 when (response) {
-                    is TopHeadLinesUiState.Error -> {
-                        ErrorView(
+                    is TopHeadLinesUiState.Error -> { ErrorView(
                             modifier = Modifier.fillMaxSize(),
                             message = (response as TopHeadLinesUiState.Error).error
-                        )
-                    }
-
+                        ) }
                     TopHeadLinesUiState.Initial -> Unit
-                    TopHeadLinesUiState.Loading -> {
-                        LoadingView(modifier = Modifier.fillMaxSize())
-                    }
-
+                    TopHeadLinesUiState.Loading -> { LoadingView(modifier = Modifier.fillMaxSize()) }
                     is TopHeadLinesUiState.Success -> {
                         Column(modifier = Modifier.fillMaxSize()) {
                             SuccessUi(
-                                newsList = newsList,
                                 articleList = (response as TopHeadLinesUiState.Success).topHeadlinesResponse,
-                                selectedTopic = selectedTopic,
-                                onSelectedTopic = {
-                                    selectedTopic = it
-                                    if (it == TRENDING_TOPIC) {
-                                        homeScreenViewModel.getTopHeadlines()
-                                    } else {
-                                        homeScreenViewModel.getNewsOfSpecificType(it)
-                                    }
-
-                                },
                                 colorList = colorList,
                                 onCardClicked = onCardClicked
 
@@ -166,20 +163,11 @@ private fun NewsPager(
 
 @Composable
 private fun SuccessUi(
-    newsList: List<String>,
     articleList: List<Article>,
-    selectedTopic: String,
-    onSelectedTopic: (String) -> Unit,
     colorList: List<Color>,
     onCardClicked: (NewsDetailsNavArgs) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        NewsTopics(
-            newsList,
-            selectedTopic,
-            onSelectedTopic = onSelectedTopic  // just pass it straight through
-        )
-        Spacer(modifier = Modifier.height(32.dp))
         NewsPager(articleList, colorList, onCardClicked)
     }
 }

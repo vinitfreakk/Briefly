@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.accidentaldeveloper.briefly.database.stableId
 import com.accidentaldeveloper.briefly.database.toNewsEntity
 import com.accidentaldeveloper.briefly.model.Article
+import com.accidentaldeveloper.briefly.platform.Share
 import com.accidentaldeveloper.briefly.repository.BookMarkRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class DetailsViewModel(
     private val bookMarkRepository: BookMarkRepository,
+    private val share: Share
 ) : ViewModel() {
 
     private var bookMarkStatusJob: Job? = null
@@ -33,6 +35,15 @@ class DetailsViewModel(
                 _isBookMarked.value = it
             }
         }
+    }
+
+    fun shareNews(article: Article) {
+        val title = article.title ?: "Check this article"
+        val url = article.url ?: return
+
+        share.share(
+            "$title\n$url"
+        )
     }
 
     override fun onCleared() {

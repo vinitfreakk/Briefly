@@ -67,7 +67,7 @@ val appModule = module {
         BookMarkRepositoryImpl(get())
     }
     viewModel {
-        DetailsViewModel(get())
+        DetailsViewModel(get(),get())
     }
     viewModel {
         BookMarkViewmodel(get())

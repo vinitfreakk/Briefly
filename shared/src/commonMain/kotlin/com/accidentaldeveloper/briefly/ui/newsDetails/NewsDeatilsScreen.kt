@@ -40,6 +40,7 @@ import briefly.shared.generated.resources.ic_arrow_back
 import coil3.compose.AsyncImage
 import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime
+import com.accidentaldeveloper.briefly.model.Article
 import com.accidentaldeveloper.briefly.navigation.NewsDetailsNavArgs
 import com.accidentaldeveloper.briefly.navigation.toNewsDetails
 import com.accidentaldeveloper.briefly.ui.components.ArticleActionRow
@@ -140,7 +141,7 @@ fun NewsDetailsScreen(newsDetails: NewsDetailsNavArgs,detailsViewModel: DetailsV
                     modifier = Modifier.align(Alignment.BottomEnd),
                     isBookMarked = isBookMarked,
                     onBookMarkClicked = {detailsViewModel.toggleNews(newsDetails.toNewsDetails())},
-                    onShareClicked = { },
+                    onShareClicked = { detailsViewModel.shareNews(article = newsDetails.toNewsDetails()) },
                     onBrowserClicked = { },
                     iconColor = Color.White,
                     iconBackGroundColor = Color.DarkGray

@@ -2,7 +2,6 @@ package com.accidentaldeveloper.briefly.ui.bookmark
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.accidentaldeveloper.briefly.database.NewsEntity
 import com.accidentaldeveloper.briefly.database.toNewsArticle
 import com.accidentaldeveloper.briefly.model.Article
 import com.accidentaldeveloper.briefly.platform.ShareManager

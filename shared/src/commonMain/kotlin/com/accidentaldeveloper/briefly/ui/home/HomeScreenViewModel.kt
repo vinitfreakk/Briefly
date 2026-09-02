@@ -91,7 +91,8 @@ class HomeScreenViewModel(
     }
 
     fun openBrowser(article: Article){
-        webViewManager.open(article.url?:"something went wrong")
+        val url = article.url ?: return
+        webViewManager.open(url)
     }
 
     companion object {

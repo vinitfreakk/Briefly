@@ -40,7 +40,6 @@ import briefly.shared.generated.resources.ic_arrow_back
 import coil3.compose.AsyncImage
 import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime
-import com.accidentaldeveloper.briefly.model.Article
 import com.accidentaldeveloper.briefly.navigation.NewsDetailsNavArgs
 import com.accidentaldeveloper.briefly.navigation.toNewsDetails
 import com.accidentaldeveloper.briefly.ui.components.ArticleActionRow

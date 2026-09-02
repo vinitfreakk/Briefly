@@ -3,6 +3,7 @@ package com.accidentaldeveloper.briefly.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.accidentaldeveloper.briefly.model.Article
+import com.accidentaldeveloper.briefly.platform.Share
 import com.accidentaldeveloper.briefly.repository.NewsApiRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,7 @@ sealed interface TopHeadLinesUiState{
     data class Success(val topHeadlinesResponse: List<Article>): TopHeadLinesUiState
     data class Error(val error: String): TopHeadLinesUiState
 }
-class HomeScreenViewModel(private val newsApiRepository: NewsApiRepository) : ViewModel() {
+class HomeScreenViewModel(private val newsApiRepository: NewsApiRepository, private val share: Share) : ViewModel() {
 
     private var fetchJob: Job? = null
 
@@ -68,6 +69,15 @@ class HomeScreenViewModel(private val newsApiRepository: NewsApiRepository) : Vi
             BITCOIN_TOPIC,
             TECHNOLOGY_TOPIC,
             POLITICS_TOPIC
+        )
+    }
+
+    fun shareNews(article: Article) {
+        val title = article.title ?: "Check this article"
+        val url = article.url ?: return
+
+        share.share(
+            "$title\n$url"
         )
     }
 

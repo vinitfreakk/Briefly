@@ -46,6 +46,7 @@ import briefly.shared.generated.resources.ic_browser
 import briefly.shared.generated.resources.ic_share
 import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime
+import com.accidentaldeveloper.briefly.platform.Share
 import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -132,6 +133,7 @@ fun PagerItem(
     time: String,
     color: Color,
     modifier: Modifier,
+    share:()-> Unit,
     onCardClicked: () -> Unit
 ) {
     Card(
@@ -218,7 +220,7 @@ fun PagerItem(
                 isBookMarked = false,
                 isBookMarkIconVisible = false,
                 onBookMarkClicked = { },
-                onShareClicked = { },
+                onShareClicked = {share()},
                 onBrowserClicked = { }
             )
         }

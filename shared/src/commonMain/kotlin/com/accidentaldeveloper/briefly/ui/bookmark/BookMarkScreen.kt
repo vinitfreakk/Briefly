@@ -116,6 +116,7 @@ private fun SuccessUi(
                 content = newsList[page].description ?: "N/A",
                 author = newsList[page].author ?: "Unknown",
                 time = newsList[page].publishedAt ?: "",
+                share = {},
                 onCardClicked = {
                     onCardClicked(newsList[page].toNewsDetails(cyclicColor))
                 }

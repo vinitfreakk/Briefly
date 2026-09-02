@@ -5,6 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.accidentaldeveloper.briefly.database.getDatabaseBuilderForAndroid
 import com.accidentaldeveloper.briefly.datastore.createAndroidDataStore
+import com.accidentaldeveloper.briefly.platform.AndroidShare
+import com.accidentaldeveloper.briefly.platform.Share
 import org.koin.dsl.module
 
 
@@ -17,6 +19,10 @@ val androidModule = module {
     }
     single {
         getDatabaseBuilderForAndroid(get())
+    }
+
+    single<Share> {
+        AndroidShare(get())
     }
 }
 

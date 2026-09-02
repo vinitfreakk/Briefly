@@ -1,31 +1,42 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# Briefly
 
-* [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
-
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
-
-### Running the apps
-
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
-
-- Android app: `./gradlew :androidApp:assembleDebug`
-- iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
-
-### Running tests
-
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
-
-- Android tests: `./gradlew :shared:testAndroidHostTest`
-- iOS tests: `./gradlew :shared:iosSimulatorArm64Test`
+A news app built with Kotlin Multiplatform, targeting Android and iOS. Uses NewsAPI under the hood.
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## [Watch Preview](https://drive.google.com/file/d/1wUUc3rit1hjxtq13qsCTvxNjQJ2qMnRn/view?usp=sharing)
+
+[![Briefly Preview](https://drive.google.com/thumbnail?id=1wUUc3rit1hjxtq13qsCTvxNjQJ2qMnRn&sz=w800)](https://drive.google.com/file/d/1wUUc3rit1hjxtq13qsCTvxNjQJ2qMnRn/view?usp=sharing)
+
+---
+
+## What's inside
+
+- Top headlines feed
+- Search
+- Bookmarks
+- In-app article reader
+- Share articles
+
+---
+
+## Tech Stack
+
+- Kotlin Multiplatform
+- Compose Multiplatform
+- MVVM
+- Koin
+- Ktor
+- Room
+- DataStore
+- Coil
+- Navigation3
+
+---
+
+## Setup
+
+Get a free API key from [newsapi.org](https://newsapi.org/), then enter it directly inside the app on first launch. It gets saved locally via DataStore.
+
+**Android** — `./gradlew :androidApp:assembleDebug`  
+**iOS** — open `/iosApp` in Xcode and run

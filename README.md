@@ -40,3 +40,9 @@ Get a free API key from [newsapi.org](https://newsapi.org/), then enter it direc
 
 **Android** — `./gradlew :androidApp:assembleDebug`  
 **iOS** — open `/iosApp` in Xcode and run
+
+---
+
+## Credits
+
+UI reference — [MindInventory](https://dribbble.com/shots/20391043-News-App) on Dribbble

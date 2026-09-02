@@ -4,8 +4,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.accidentaldeveloper.briefly.database.getDatabaseBuilderForIos
 import com.accidentaldeveloper.briefly.datastore.createIosDataStore
-import com.accidentaldeveloper.briefly.platform.IosShare
-import com.accidentaldeveloper.briefly.platform.Share
+import com.accidentaldeveloper.briefly.platform.IosShareManager
+import com.accidentaldeveloper.briefly.platform.IosWebViewManager
+import com.accidentaldeveloper.briefly.platform.ShareManager
+import com.accidentaldeveloper.briefly.platform.WebViewManager
 import org.koin.dsl.module
 
 val iosModule = module {
@@ -17,8 +19,12 @@ val iosModule = module {
         getDatabaseBuilderForIos()
     }
 
-    single<Share> {
-        IosShare()
+    single<ShareManager> {
+        IosShareManager()
+    }
+
+    single<WebViewManager> {
+        IosWebViewManager()
     }
 }
 actual fun startAppKoin() {

@@ -3,7 +3,7 @@ package com.accidentaldeveloper.briefly.platform
 import android.content.Context
 import android.content.Intent
 
-class AndroidShare(private val context: Context) : Share {
+class AndroidShareManager(private val context: Context) : ShareManager {
     override fun share(link: String) {
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"

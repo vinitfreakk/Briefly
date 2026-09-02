@@ -13,13 +13,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -46,7 +44,6 @@ import briefly.shared.generated.resources.ic_browser
 import briefly.shared.generated.resources.ic_share
 import com.accidentaldeveloper.briefly.Utils.cleanArticleText
 import com.accidentaldeveloper.briefly.Utils.toRelativeTime
-import com.accidentaldeveloper.briefly.platform.Share
 import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -134,6 +131,7 @@ fun PagerItem(
     color: Color,
     modifier: Modifier,
     share:()-> Unit,
+    openBrowser:()-> Unit,
     onCardClicked: () -> Unit
 ) {
     Card(
@@ -221,7 +219,7 @@ fun PagerItem(
                 isBookMarkIconVisible = false,
                 onBookMarkClicked = { },
                 onShareClicked = {share()},
-                onBrowserClicked = { }
+                onBrowserClicked = { openBrowser() }
             )
         }
 

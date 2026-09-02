@@ -1,6 +1,6 @@
 package com.accidentaldeveloper.briefly.platform
 
-interface Share {
+interface ShareManager {
 
     fun share(link: String)
 }

@@ -145,6 +145,10 @@ fun HomeScreen(
                                 homeScreenViewModel.shareNews(article)
                             },
 
+                            openBrowser = {article->
+                                homeScreenViewModel.openBrowser(article)
+                            },
+
                             onCardClicked = onCardClicked
                         )
                     }
@@ -207,7 +211,8 @@ private fun NewsPager(
 
     // Changed from () -> Unit
     // to (Article) -> Unit
-    share: (Article) -> Unit
+    share: (Article) -> Unit,
+    openBrowser:(Article)-> Unit
 ) {
 
     val pagerState: PagerState = rememberPagerState(
@@ -246,6 +251,10 @@ private fun NewsPager(
                 share(article)
             },
 
+            openBrowser = {
+                openBrowser(article)
+            },
+
             onCardClicked = {
                 onCardClicked(
                     article.toNewsDetails(cyclicColor)
@@ -264,6 +273,7 @@ private fun SuccessUi(
     // Changed from () -> Unit
     // to (Article) -> Unit
     share: (Article) -> Unit,
+    openBrowser:(Article) -> Unit,
 
     onCardClicked: (NewsDetailsNavArgs) -> Unit
 ) {
@@ -276,7 +286,8 @@ private fun SuccessUi(
             newsList = articleList,
             colorList = colorList,
             onCardClicked = onCardClicked,
-            share = share
+            share = share,
+            openBrowser = openBrowser
         )
     }
 }

@@ -5,7 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.accidentaldeveloper.briefly.database.stableId
 import com.accidentaldeveloper.briefly.database.toNewsEntity
 import com.accidentaldeveloper.briefly.model.Article
-import com.accidentaldeveloper.briefly.platform.Share
+import com.accidentaldeveloper.briefly.platform.ShareManager
+import com.accidentaldeveloper.briefly.platform.WebViewManager
 import com.accidentaldeveloper.briefly.repository.BookMarkRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class DetailsViewModel(
     private val bookMarkRepository: BookMarkRepository,
-    private val share: Share
+    private val shareManager: ShareManager,
+    private val webViewManager: WebViewManager
 ) : ViewModel() {
 
     private var bookMarkStatusJob: Job? = null
@@ -41,9 +43,13 @@ class DetailsViewModel(
         val title = article.title ?: "Check this article"
         val url = article.url ?: return
 
-        share.share(
+        shareManager.share(
             "$title\n$url"
         )
+    }
+
+    fun openBrowser(article: Article){
+        webViewManager.open(article.url?:"something went wrong")
     }
 
     override fun onCleared() {

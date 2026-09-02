@@ -65,7 +65,13 @@ fun BookMarkScreen(
                     SuccessUi(
                         newsList = (bookMarkedNews as BookMarkUiState.Success).bookMarkedNews,
                         colorList = colorList,
-                        onCardClicked = onNewsClicked
+                        onCardClicked = onNewsClicked,
+                        openBrowser = {article ->
+                            bookMarkViewmodel.openBrowser(article)
+                        },
+                        share = {article->
+                            bookMarkViewmodel.shareNews(article)
+                        }
 
                     )
                 }
@@ -97,7 +103,9 @@ private fun TopBar(modifier: Modifier) {
 private fun SuccessUi(
     newsList: List<Article>,
     colorList: List<Color>,
-    onCardClicked: (NewsDetailsNavArgs) -> Unit
+    onCardClicked: (NewsDetailsNavArgs) -> Unit,
+    share:(Article)-> Unit,
+    openBrowser:(Article)-> Unit
 ) {
     if (newsList.isNotEmpty()) {
         val pagerState: PagerState = rememberPagerState(0, pageCount = { newsList.size })
@@ -116,7 +124,8 @@ private fun SuccessUi(
                 content = newsList[page].description ?: "N/A",
                 author = newsList[page].author ?: "Unknown",
                 time = newsList[page].publishedAt ?: "",
-                share = {},
+                share = { share(newsList[page]) },
+                openBrowser = { openBrowser((newsList[page]))},
                 onCardClicked = {
                     onCardClicked(newsList[page].toNewsDetails(cyclicColor))
                 }

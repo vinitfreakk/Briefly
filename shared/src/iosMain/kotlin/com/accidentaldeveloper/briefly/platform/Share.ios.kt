@@ -5,7 +5,7 @@ import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.popoverPresentationController
 
-class IosShare : Share {
+class IosShareManager : ShareManager {
     @OptIn(ExperimentalForeignApi::class)
     override fun share(link: String) {
         val activityViewController = UIActivityViewController(

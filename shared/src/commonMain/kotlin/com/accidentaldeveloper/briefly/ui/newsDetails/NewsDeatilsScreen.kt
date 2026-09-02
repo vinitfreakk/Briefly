@@ -142,7 +142,7 @@ fun NewsDetailsScreen(newsDetails: NewsDetailsNavArgs,detailsViewModel: DetailsV
                     isBookMarked = isBookMarked,
                     onBookMarkClicked = {detailsViewModel.toggleNews(newsDetails.toNewsDetails())},
                     onShareClicked = { detailsViewModel.shareNews(article = newsDetails.toNewsDetails()) },
-                    onBrowserClicked = { },
+                    onBrowserClicked = { detailsViewModel.openBrowser(article = newsDetails.toNewsDetails()) },
                     iconColor = Color.White,
                     iconBackGroundColor = Color.DarkGray
                 )

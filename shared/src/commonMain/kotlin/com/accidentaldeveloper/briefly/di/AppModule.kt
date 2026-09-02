@@ -36,7 +36,7 @@ val appModule = module {
     }
 
     viewModel {
-        HomeScreenViewModel(get(),get())
+        HomeScreenViewModel(get(),get(),get())
     }
 
     viewModel {
@@ -67,10 +67,10 @@ val appModule = module {
         BookMarkRepositoryImpl(get())
     }
     viewModel {
-        DetailsViewModel(get(),get())
+        DetailsViewModel(get(),get(),get())
     }
     viewModel {
-        BookMarkViewmodel(get())
+        BookMarkViewmodel(get(),get(),get())
     }
 }
 

@@ -60,6 +60,8 @@ kotlin {
             //workmanager
             implementation(libs.androidx.work.manager)
             implementation(libs.koin.androidx.workmanager)
+            //in app browser or webview
+            implementation(libs.androidx.browser)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
